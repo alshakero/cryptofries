@@ -1,0 +1,45 @@
+body {
+  margin: 0px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+h1 {
+  margin: 0;
+}
+
+.appBody {
+  padding-top: 1%;
+  background: linear-gradient(
+      135deg,
+      #f8f8f8 22px,
+      #fff 22px,
+      #fff 24px,
+      transparent 24px,
+      transparent 67px,
+      #fff 67px,
+      #fff 69px,
+      transparent 69px
+    ),
+    linear-gradient(
+        225deg,
+        #f8f8f8 22px,
+        #fff 22px,
+        #fff 24px,
+        transparent 24px,
+        transparent 67px,
+        #fff 67px,
+        #fff 69px,
+        transparent 69px
+      )
+      0 64px;
+  background-color: #f8f8f8;
+  background-size: 64px 128px;
+}
+
+h1 {
+  font-weight: 200;
+}
+
+.recharts-surface text {
+  font-size: 0.7em
+}

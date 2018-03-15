@@ -1,0 +1,49 @@
+.controlPanel {
+  border-top: 1px solid #eeeeee;
+  background: linear-gradient(
+    to right,
+    #ff9966,
+    #ff5e62
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
+}
+.controlPanel {
+  padding: 2%;
+  padding-top: 1.2%;
+}
+.controlPanel p {
+  margin: 0px;
+  font-style: italic;
+}
+.controlPanel button {
+  width: 32px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 10px 10px 0px 0px;
+  background: white;
+  transition: transform 0.2s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  font-size: 1.1em;
+  background: gold;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none
+}
+.controlPanel button:hover {
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+.controlPanel div {
+  display: inline-block;
+  min-width: 300px;
+  width: 70%;
+}
+.controlPanel div:nth-child(2) {
+    margin-top: 10px;
+    width: 30%;
+}
+
+.controlPanel button[data-selected="true"] {
+    background: yellow;
+    color: #333;
+}

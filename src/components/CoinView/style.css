@@ -1,0 +1,68 @@
+.CoinView {
+  padding: 1%;
+}
+.currencyPanel {
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 1%;
+    background: white;
+    transition: background-color 0.2s ease-in-out
+}
+
+[data-go-red="true"] {
+    background-color: #ffdca2
+}
+
+.currencyPanel span {
+    line-height: 25px
+}
+
+.currencytitle h1 {
+    line-height: 25px
+}
+
+.currencyPanel span, .currencyPanel img {
+    vertical-align: top
+}
+
+.currencyCurrentPrice {
+    padding: 20px;
+    box-sizing: border-box;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0px;
+    border: 1px solid #eee;
+}
+.currencyCurrentPrice .value {
+    font-size: calc( 24px + (24 - 8) * (100vw - 400px) / (800 - 400) );
+    margin: 0px;
+    font-weight: 300;
+}
+.currencyCurrentPrice .title {
+    margin: 0px;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.currencyHistoryChart {
+    width: 100%;
+    height: 200px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0px;
+    border: 1px solid #eee;
+    border-left: none;
+    padding: 10px;
+}
+
+.currencyBody {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}

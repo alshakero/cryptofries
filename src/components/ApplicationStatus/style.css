@@ -1,0 +1,20 @@
+.applicationStatus {
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 1%;
+    background: white;
+    margin: 1%;
+    margin-top: 0;
+}
+.applicationStatus span.indictor {
+    margin: 0 0.5%
+}
+.applicationStatus span.indictor::after {
+    content: "※";
+    display: inline-block;
+    margin: 0px 0px 0px 15px;
+    color: #ddd
+}
+.applicationStatus span.indictor:last-of-type::after {
+    content: "";
+}
