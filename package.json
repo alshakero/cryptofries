@@ -2,7 +2,7 @@
   "name": "cryptofries",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost:5000/",
+  "homepage": "https://alshakero.github.io/cryptofries",
   "repository": {
     "type": "git",
     "url": "https://github.com/alshakero/cryptofries.git"
@@ -24,6 +24,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.1.0"
   }
 }

@@ -8,9 +8,20 @@ import EtherumLogo from './art/ethereum-logo.svg';
 import RippleLogo from './art/ripple-logo.svg';
 import DataStore from './dataStore';
 import ApplicationStatus from './components/ApplicationStatus';
-import NewsWidget from './components/NewsWidget';
+import Loadable from 'react-loadable';
+import Loading from './components/Loading'
 
 import './App.css';
+
+const NewsWidgetAsync = Loadable({
+  loader: () => import(/* webpackChunkName: "NewsWidget"*/ './components/NewsWidget'),
+  render(loaded, props) {
+    let NewsWidget = loaded.default;
+    return <NewsWidget {...props} />;
+  },
+  loading: Loading
+});
+
 
 const store = new DataStore();
 
@@ -57,7 +68,7 @@ class App extends Component {
             price={data.prices[data.currency].XRP}
             name="Ripple"
           />
-          <NewsWidget store={store} />
+          <NewsWidgetAsync store={store} />
         </div>
         <Footer />
       </div>

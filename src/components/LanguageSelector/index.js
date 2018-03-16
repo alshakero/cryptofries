@@ -11,14 +11,13 @@ class LanguageSelector extends Component {
           value="🇬🇧"
           onClick={() => this.props.store.changeLanguage('EN')}
           name="lang"
-          type="image" src={UKFlag}
+          type="image" alt="UK flag (English)" src={UKFlag}
         />
         <input
           value="🇮🇶"
           onClick={() => this.props.store.changeLanguage('AR')}
           name="lang"
-          type="button"
-          type="image" src={IraqFlag}
+          type="image" alt="Iraqi flag (Arabic)" src={IraqFlag}
         />
       </div>
     );

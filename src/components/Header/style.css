@@ -72,6 +72,6 @@ nav a:hover::before {
   right: calc(100% - 80px);
   transform: rotateY(180deg);
 }
-#tail {
+.octo-arm {
   transform-origin: 130px 106px;
 }

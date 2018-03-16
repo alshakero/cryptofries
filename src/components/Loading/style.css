@@ -1,0 +1,20 @@
+span.loading {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px solid #ccc;
+  border-top: 5px solid rgb(255, 157, 0);
+  box-sizing: border-box;
+  animation: 1.2s cubic-bezier(0.31, 0.85, 0.69, 0.85) infinite revolve;
+}
+.loadingWrapper {
+    width: 100%;
+    padding: 20px 10px;
+    text-align: center;
+}
+@keyframes revolve {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

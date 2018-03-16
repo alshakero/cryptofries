@@ -33,14 +33,14 @@
     margin: 5px;
 }
 .newsItem time { 
-    color: #999;
-    font-size: 0.7em;
+    color: #555;
+    font-size: 1em;
 }
 .newsItem .details {
     padding: 5px;
     margin-bottom: 10px
 }
 .newsItem .details p {
-    margin: 0;
-    font-size: 0.7em;
+    margin: 2px 0;
+    font-size: 1em;
 }

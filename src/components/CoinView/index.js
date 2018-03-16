@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import ContainerDimensions from 'react-container-dimensions';
+import Loading from '../Loading';
 import './style.css';
 
-class Loading extends Component {
-  render() {
-    return <h1>Loading..</h1>;
-  }
-}
-const LoadableComponent = Loadable({
+const HistoryChartAsync = Loadable({
   loader: () => import(/* webpackChunkName: "HistoryChart"*/ '../HistoryChart'),
   render(loaded, props) {
     let Component = loaded.default;
@@ -21,24 +17,33 @@ class Header extends Component {
   constructor() {
     super();
     this.state = { hasUpdated: false };
-
+    this.flashOnUpdates = false;
+    this.flashOnUpdatesTimeout = false;
     this.update = this.update.bind(this);
   }
   componentDidMount() {
     this.props.store.subscribe(this.update);
+    // only start flashing after 5 seconds
+    this.flashOnUpdatesTimeout = setTimeout(() => {
+      this.flashOnUpdates = true;
+    }, 5000);
   }
   componentWillUnmount() {
     this.props.store.unsubscribe(this.update);
+    clearTimeout(this.flashOnUpdatesTimeout);
   }
-  update() {
-    this.forceUpdate();
+  update(success, pricesUpdate) {
+    // only flash when it's a prices update
+    if (pricesUpdate && this.flashOnUpdates) {
+      this.setState({ hasUpdated: true }, () => {
+        setTimeout(() => {
+          this.setState({ hasUpdated: false });
+        }, 1000);
+      });
+    }
   }
   componentWillReceiveProps() {
-    this.setState({ hasUpdated: true }, () => {
-      setTimeout(() => {
-        this.setState({ hasUpdated: false });
-      }, 1000);
-    });
+    
   }
   render() {
     const store = this.props.store;
@@ -63,7 +68,7 @@ class Header extends Component {
               <div style={{ width: '100%', height: '100%' }}>
                 <ContainerDimensions>
                   {({ width, height }) => (
-                    <LoadableComponent
+                    <HistoryChartAsync
                       height={height - 20}
                       width={width - 10}
                       store={store}

@@ -49,7 +49,7 @@ class NewsItem extends Component {
     return (
       <a
         href={this.props.url}
-        role="noopener noreferrer"
+        rel="noopener noreferrer"
         target="_blank"
         className="newsItem"
       >
@@ -63,14 +63,14 @@ class NewsItem extends Component {
         <h4 className="title">{this.props.title}</h4>
         <div className="details">
           <time>
-            <span role="image" aria-label="clock">
+            <span role="img" aria-label="clock">
               🕒{' '}
             </span>
             {this.formatDate(this.props.published_on)}
           </time>
           <p>
             {' '}
-            <span role="image" aria-label="world">
+            <span role="img" aria-label="world">
               🌐{' '}
             </span>
             {this.props.source}
