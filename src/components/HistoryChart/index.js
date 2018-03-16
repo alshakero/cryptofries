@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { AreaChart, Area, XAxis, YAxis } from 'recharts';
+import './style.css';
+
 class HistoryChart extends Component {
   constructor() {
     super();
