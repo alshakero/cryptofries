@@ -14,42 +14,11 @@ const HistoryChartAsync = Loadable({
 });
 
 class Header extends Component {
-  constructor() {
-    super();
-    this.state = { hasUpdated: false };
-    this.flashOnUpdates = false;
-    this.flashOnUpdatesTimeout = false;
-    this.update = this.update.bind(this);
-  }
-  componentDidMount() {
-    this.props.store.subscribe(this.update);
-    // only start flashing after 5 seconds
-    this.flashOnUpdatesTimeout = setTimeout(() => {
-      this.flashOnUpdates = true;
-    }, 5000);
-  }
-  componentWillUnmount() {
-    this.props.store.unsubscribe(this.update);
-    clearTimeout(this.flashOnUpdatesTimeout);
-  }
-  update(success, pricesUpdate) {
-    // only flash when it's a prices update
-    if (pricesUpdate && this.flashOnUpdates) {
-      this.setState({ hasUpdated: true }, () => {
-        setTimeout(() => {
-          this.setState({ hasUpdated: false });
-        }, 1000);
-      });
-    }
-  }
-  componentWillReceiveProps() {
-    
-  }
   render() {
     const store = this.props.store;
     return (
       <div className="CoinView">
-        <div data-go-red={this.state.hasUpdated} className="currencyPanel">
+        <div className="currencyPanel">
           <div className="currencytitle">
             <h1>
               <img alt={this.props.name + ' logo'} src={this.props.logo} />{' '}

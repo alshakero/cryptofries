@@ -1,7 +1,5 @@
 import i18n from '../i18n';
 
-let getHistoricalDataBound;
-
 /**
  * This is the initial state of the app, it has all the default values
  */
@@ -26,47 +24,7 @@ const defaultData = {
     JPY: { BTC: 875391.78, ETH: 64541.2, XRP: 72 },
     USD: { BTC: 8090.31, ETH: 598.94, XRP: 0.6639 }
   },
-  historicalData: new Proxy(
-    {},
-    {
-      get(target, coin) {
-        if (target[coin] || coin === 'toJSON') {
-          return target[coin];
-        } else {
-          target[coin] = new Proxy(
-            {},
-            {
-              get(target, period) {
-                if (target[period] || period === 'toJSON') {
-                  return target[period];
-                } else {
-                  target[period] = new Proxy(
-                    {},
-                    {
-                      get(target, currency) {
-                        if (target[currency] || currency === 'toJSON') {
-                          return target[currency];
-                        } else {
-                          target[currency] = getHistoricalDataBound(
-                            period,
-                            coin,
-                            currency
-                          );
-                          return target[currency];
-                        }
-                      }
-                    }
-                  );
-                  return target[period];
-                }
-              }
-            }
-          );
-          return target[coin];
-        }
-      }
-    }
-  ),
+  historicalData: {},
   news: []
 };
 
@@ -81,8 +39,21 @@ export default class DataStore {
     } else {
       this.availableData = defaultData;
     }
-    getHistoricalDataBound = this.getHistoricalData.bind(this);
     setTimeout(this.fetchNews.bind(this), 100); // fetch news lazily
+  }
+
+  async getHistoricalData(coin, period, currency) {
+    if (!this.availableData.historicalData[coin]) {
+      this.availableData.historicalData[coin] = {};
+    }
+    if (!this.availableData.historicalData[coin][period]) {
+      this.availableData.historicalData[coin][period] = {};
+    }
+    if (!this.availableData.historicalData[coin][period][currency]) {
+      const data = await this.fetchHistoricalData(period, coin, currency);
+      this.availableData.historicalData[coin][period][currency] = data;
+    }
+    return this.availableData.historicalData[coin][period][currency];
   }
 
   get i18n() {
@@ -119,13 +90,12 @@ export default class DataStore {
     return url;
   }
 
-  async getHistoricalData(mode, coin, currency) {
+  async fetchHistoricalData(mode, coin, currency) {
     const url = this.constructAPIUrl(mode, coin, currency);
     try {
       const response = await fetch(url);
       const rawData = await response.json();
       const data = rawData.Data;
-      this.availableData.historicalData[coin][mode][currency] = data;
       this.dispatchUpdate(true, true);
       return data;
     } catch (e) {

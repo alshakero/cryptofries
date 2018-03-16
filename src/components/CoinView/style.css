@@ -6,11 +6,6 @@
     border: 1px solid #eee;
     padding: 1%;
     background: white;
-    transition: background-color 0.2s ease-in-out
-}
-
-[data-go-red="true"] {
-    background-color: #ffdca2
 }
 
 .currencyPanel span {

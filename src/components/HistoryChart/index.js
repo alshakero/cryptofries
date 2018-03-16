@@ -18,13 +18,22 @@ class HistoryChart extends Component {
     });
     return newData;
   }
-  componentDidMount() {
+  componentWillMount() {
     this.updatePrices();
   }
-  async updatePrices(mode = '1h') {
-    const data = await this.props.store.availableData.historicalData[
-      this.props.coinCode
-    ][mode][this.props.currency];
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.chartData === nextState.chartData) {
+      this.updatePrices(nextState.mode);
+    }
+  }
+  async updatePrices(mode) {
+    const coinCode = this.props.coinCode;
+    const currency = this.props.currency;
+    const data = await this.props.store.getHistoricalData(
+      coinCode,
+      mode,
+      currency
+    );
     const chartData = this.normalizeData(data, mode);
     this.setState({ chartData });
   }
