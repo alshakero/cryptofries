@@ -17,33 +17,34 @@ class ApplicationStatus extends Component {
   }
   render() {
     const store = this.props.store;
+    const i18n = store.i18n;
     const lastUpdated = new Date(store.availableData.timestamp);
     const connectionStatus = store.availableData.connected;
     return (
       <div className="applicationStatus">
-        <span className="indictor" title="Connection status">
+        <span className="indictor" title={i18n.connectionStatus}>
           {connectionStatus ? (
             <span>
               {' '}
-              <span aria-label="connected" role="img">
+              <span aria-label={i18n.connected} role="img">
                 🔵
               </span>{' '}
-              Status: connected
+              {i18n.connectionStatus}: {i18n.connected}
             </span>
           ) : (
             <span>
-              <span aria-label="disconnected" role="img">
+              <span aria-label={i18n.disconnected} role="img">
                 🔴
               </span>{' '}
-              Status: disconnected
+              {i18n.connectionStatus}: {i18n.disconnected}
             </span>
           )}
         </span>
-        <span className="indictor" title="Last updated">
+        <span className="indictor" title={i18n.lastUpdated}>
           <span role="img" aria-label="Clock symbol">
             🕒
           </span>{' '}
-          Last updated: {lastUpdated.toLocaleDateString()}{' '}
+          {i18n.lastUpdated}: {lastUpdated.toLocaleDateString()}{' '}
           {lastUpdated.toLocaleTimeString()}
         </span>
       </div>

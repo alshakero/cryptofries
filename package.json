@@ -1,8 +1,8 @@
 {
-  "name": "crypotato",
+  "name": "cryptofries",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://alshaker.githib.io/cryptofries",
+  "homepage": "http://localhost:5000/",
   "repository": {
     "type": "git",
     "url": "https://github.com/alshakero/cryptofries.git"

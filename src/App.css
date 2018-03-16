@@ -41,5 +41,10 @@ h1 {
 }
 
 .recharts-surface text {
-  font-size: 0.7em
+  font-size: 0.7em;
 }
+
+.arabic {
+  direction: rtl;
+}
+

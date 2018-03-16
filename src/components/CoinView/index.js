@@ -21,6 +21,17 @@ class Header extends Component {
   constructor() {
     super();
     this.state = { hasUpdated: false };
+
+    this.update = this.update.bind(this);
+  }
+  componentDidMount() {
+    this.props.store.subscribe(this.update);
+  }
+  componentWillUnmount() {
+    this.props.store.unsubscribe(this.update);
+  }
+  update() {
+    this.forceUpdate();
   }
   componentWillReceiveProps() {
     this.setState({ hasUpdated: true }, () => {
@@ -30,6 +41,7 @@ class Header extends Component {
     });
   }
   render() {
+    const store = this.props.store;
     return (
       <div className="CoinView">
         <div data-go-red={this.state.hasUpdated} className="currencyPanel">
@@ -45,7 +57,7 @@ class Header extends Component {
                 {this.props.currencySymbol}
                 {this.props.price}
               </h1>
-              <p className="title">Current Price</p>
+              <p className="title">{store.i18n.currentPrice}</p>
             </div>
             <div className="currencyHistoryChart">
               <div style={{ width: '100%', height: '100%' }}>
@@ -54,7 +66,7 @@ class Header extends Component {
                     <LoadableComponent
                       height={height - 20}
                       width={width - 10}
-                      store={this.props.store}
+                      store={store}
                       currency={this.props.currency}
                       coinCode={this.props.coinCode}
                     />

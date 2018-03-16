@@ -1,0 +1,9 @@
+.language-selector {
+  margin: 0 3%;
+  direction: ltr;
+}
+.language-selector input {
+  outline: none;
+  margin: 3px;
+  width: 30px
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import CoinView from './components/CoinView';
 import ControlPanel from './components/ControlPanel';
 import BTCLogo from './art/bitcoin-logo.svg';
@@ -7,6 +8,7 @@ import EtherumLogo from './art/ethereum-logo.svg';
 import RippleLogo from './art/ripple-logo.svg';
 import DataStore from './dataStore';
 import ApplicationStatus from './components/ApplicationStatus';
+import NewsWidget from './components/NewsWidget';
 
 import './App.css';
 
@@ -17,13 +19,15 @@ class App extends Component {
     store.subscribe(() => {
       this.forceUpdate();
     });
+    store.changeLanguage();
   }
+
   render() {
     const data = store.availableData;
     return (
       <div className="App">
-        <Header />
-        <ControlPanel store={store} />
+        <Header store={store} />
+        <ControlPanel welcome={store.i18n.welcome} store={store} />
         <div className="appBody">
           <ApplicationStatus store={store} />
           <CoinView
@@ -53,7 +57,9 @@ class App extends Component {
             price={data.prices[data.currency].XRP}
             name="Ripple"
           />
+          <NewsWidget store={store} />
         </div>
+        <Footer />
       </div>
     );
   }

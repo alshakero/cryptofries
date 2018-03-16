@@ -1,0 +1,12 @@
+.newsWidget {
+    margin: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    text-align: center;
+}
+.newsWidgetHead {
+    padding: 5px 10px;
+    text-align: initial;
+    border-bottom: 10px dotted #eee;
+}

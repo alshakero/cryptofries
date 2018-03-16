@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 /**
  * This is the initial state of the app, it has all the default values
  */
@@ -134,7 +136,8 @@ const defaultData = {
         USD: []
       }
     }
-  }
+  },
+  news: []
 };
 
 export default class DataStore {
@@ -148,6 +151,20 @@ export default class DataStore {
     } else {
       this.availableData = defaultData;
     }
+
+    setTimeout(this.fetchNews.bind(this), 500) // fetch news lazily
+  }
+
+  get i18n() {
+    const self = this;
+    return new Proxy(
+      {},
+      {
+        get(target, name) {
+          return i18n[self.availableData.language][name];
+        }
+      }
+    );
   }
 
   constructAPIUrl(mode, coin, currency) {
@@ -179,6 +196,20 @@ export default class DataStore {
       const rawData = await response.json();
       const data = rawData.Data;
       this.availableData.historicalData[coin][mode][currency] = data;
+      this.dispatchUpdate(true);
+    } catch (e) {
+      this.dispatchUpdate(false);
+    }
+  }
+  async fetchNews() {
+    try {
+      const res = await fetch(
+        'https://min-api.cryptocompare.com/data/news/?lang=EN'
+      );
+      const news = await res.json();
+      debugger
+      this.availableData.news = news;
+      this.dispatchUpdate(true);
     } catch (e) {
       this.dispatchUpdate(false);
     }
@@ -189,18 +220,28 @@ export default class DataStore {
     this.availableData.currencySymbol = this.availableData.currencySymbols[
       newCurrency
     ];
-    this.dispatchUpdate(true);
 
     Promise.all([
       this.getHistoricalData('1h', 'BTC', this.availableData.currency),
       this.getHistoricalData('1h', 'ETH', this.availableData.currency),
       this.getHistoricalData('1h', 'XRP', this.availableData.currency)
-    ]);
+    ]).then(() => {
+      this.dispatchUpdate(true);
+    });
   }
 
-  changeLanguage(newLanguage) {
+  changeLanguage(newLanguage = this.availableData.language) {
     this.availableData.language = newLanguage;
     this.dispatchUpdate(true);
+    if (newLanguage === 'EN') {
+      document.documentElement.className = '';
+    } else {
+      document.documentElement.className = 'arabic';
+    }
+  }
+
+  storeData() {
+    localStorage.setItem('data-cache', JSON.stringify(this.availableData));
   }
 
   normalizeData(prices) {
@@ -230,20 +271,20 @@ export default class DataStore {
     const detail = {
       isConnected: success,
       data: this.availableData,
-      timestamp: Date.now()
+      timestamp: this.availableData.timestamp
     };
     this.availableData.connected = success;
-    this.subscribers.forEach(cb => cb(detail));
     if (success) {
-      localStorage.setItem('data-cache', JSON.stringify(this.availableData));
+      this.storeData();
     }
+    this.subscribers.forEach(cb => cb(detail));
   }
   fetchAllHistoricalData() {
-    [ '1h', '1d', '1w', '1m', '1y'].forEach(period => {
-        [ 'BTC', 'ETH', 'XRP'].forEach(coin => {
-            this.getHistoricalData(period, coin, this.availableData.currency);
-        })
-    })
+    ['1h', '1d', '1w', '1m', '1y'].forEach(period => {
+      ['BTC', 'ETH', 'XRP'].forEach(coin => {
+        this.getHistoricalData(period, coin, this.availableData.currency);
+      });
+    });
   }
   async fetchData() {
     try {

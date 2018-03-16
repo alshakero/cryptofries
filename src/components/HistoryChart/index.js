@@ -48,11 +48,11 @@ class HistoryChart extends Component {
           </linearGradient>
         </defs>
           <XAxis dataKey="time" type="category" />
-          <YAxis basevalue="auto" type="number" domain={[dataMin => Number.parseFloat(dataMin) * 0.999, dataMax => Number.parseFloat(dataMax) * 1.001]} />
+          <YAxis basevalue="auto" type="number" domain={[dataMin => (Number.parseFloat(dataMin) * 0.999).toFixed(5), dataMax => (Number.parseFloat(dataMax) * 1.001).toFixed(5)]} />
           <Area type="monotone" dataKey="value" stroke="#8884d8" fill="url(#colorUv)" />
         </AreaChart>
         <div>
-          <label>Select period of interest:&nbsp;
+          <label>{store.i18n.selectPeriod}:&nbsp;
             <select onChange={ev => this.setState({mode: ev.target.value})}>
               <option value="1h">1h</option>
               <option value="1d">1d</option>
