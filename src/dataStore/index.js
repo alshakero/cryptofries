@@ -1,5 +1,7 @@
 import i18n from '../i18n';
 
+const localStorageVersion = 'v1';
+
 /**
  * This is the initial state of the app, it has all the default values
  */
@@ -34,8 +36,8 @@ export default class DataStore {
     this.fetchData();
     this.updateInterval = setInterval(this.fetchData, 60 * 1000);
     this.subscribers = new Set();
-    if (localStorage.getItem('data-cache')) {
-      this.availableData = JSON.parse(localStorage.getItem('data-cache'));
+    if (localStorage.getItem('data-cache-v' + localStorageVersion)) {
+      this.availableData = JSON.parse(localStorage.getItem('data-cache-v' + localStorageVersion));
     } else {
       this.availableData = defaultData;
     }
@@ -170,7 +172,7 @@ export default class DataStore {
   }
 
   storeData() {
-    localStorage.setItem('data-cache', JSON.stringify(this.availableData));
+    localStorage.setItem('data-cache-v' + localStorageVersion, JSON.stringify(this.availableData));
   }
 
   normalizeData(prices) {
