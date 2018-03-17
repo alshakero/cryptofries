@@ -5,7 +5,7 @@
   "background_color": "#ff7f4f",
   "display": "minimal-ui",
   "Scope": "/",
-  "start_url": "https://alshakero.github.io/cryptofries",
+  "start_url": "/cryptofries",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
