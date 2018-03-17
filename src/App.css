@@ -39,15 +39,21 @@ h1 {
 }
 .appBody .carousel {
   width: 200%;
-  transition: transform 1s ease-in-out;  
+  transition: transform 1s ease-in-out;
   will-change: transform;
 }
 body[dont-transition] .appBody .carousel {
-  transition: none
+  transition: none;
 }
 html body.secondPage .appBody .carousel {
   transform: translateX(-50%);
 }
+body.secondPage .leftfold {
+  overflow: hidden;
+  height: 50vh;
+}
+
+
 html.arabic body.secondPage .appBody .carousel {
   transform: translateX(50%);
 }
@@ -74,5 +80,5 @@ h1 {
   direction: rtl;
 }
 h1 {
-  font-size: calc( 20px + (20 - 8) * (100vw - 400px) / (1000 - 400) );
+  font-size: calc(22px + (22 - 8) * (100vw - 600px) / (1200 - 400));
 }
