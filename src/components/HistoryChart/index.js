@@ -28,7 +28,7 @@ class HistoryChart extends Component {
       this.updatePrices(nextState.mode);
     }
   }
-  async updatePrices(mode) {
+  async updatePrices(mode = this.state.mode) {
     const coinCode = this.props.coinCode;
     const currency = this.props.currency;
     const data = await this.props.store.getHistoricalData(
