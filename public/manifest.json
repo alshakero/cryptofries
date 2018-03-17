@@ -5,7 +5,7 @@
   "background_color": "#ff7f4f",
   "display": "minimal-ui",
   "Scope": "/",
-  "start_url": "/cryptofries",
+  "start_url": "/cryptofries/index.html",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
