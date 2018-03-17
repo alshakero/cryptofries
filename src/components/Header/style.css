@@ -8,6 +8,10 @@ header div {
     display: inline-block;
     vertical-align: middle;
 }
+
+header .logo {
+  max-width: 40vw
+}
 .nav-wrapper {
   margin: 10px 4%
 }

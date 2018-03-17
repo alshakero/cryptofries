@@ -1,0 +1,43 @@
+.stats-view {
+    margin: 1%;
+    padding: 1%;
+    background: #fff;
+    border: 1px solid #eee
+}
+.stats-view h1 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+.stats-view table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.stats-view table th {
+    background: #fff3f3
+}
+.stats-view table td {
+    font-size: 0.8em
+}
+
+html .stats-view table th {
+    text-align: left
+}
+html.arabic .stats-view table th {
+    text-align: right
+}
+
+.stats-view table td, .stats-view table th {
+    padding: 5px;
+}
+
+.stats-view table tr:nth-child(odd):not(:first-child) {
+    background-color: #FCFCFC;
+}
+
+.update-now {
+    margin: 0 ;
+    display: inline-block;
+    border: none;
+    background-color: white;
+}

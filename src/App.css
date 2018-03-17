@@ -8,6 +8,8 @@ h1 {
 }
 
 .appBody {
+  width: 100%;
+  overflow: hidden;
   padding-top: 1%;
   background: linear-gradient(
       135deg,
@@ -35,6 +37,30 @@ h1 {
   background-color: #f8f8f8;
   background-size: 64px 128px;
 }
+.appBody .carousel {
+  width: 200%;
+  transition: transform 1s ease-in-out;  
+  will-change: transform;
+}
+body[dont-transition] .appBody .carousel {
+  transition: none
+}
+html body.secondPage .appBody .carousel {
+  transform: translateX(-50%);
+}
+html.arabic body.secondPage .appBody .carousel {
+  transform: translateX(50%);
+}
+
+.appBody .carousel > div {
+  vertical-align: top;
+  display: inline-block;
+  width: 50%;
+}
+
+.appBody .carousel > .rightFold {
+  min-height: 90vh;
+}
 
 h1 {
   font-weight: 200;
@@ -47,4 +73,6 @@ h1 {
 .arabic {
   direction: rtl;
 }
-
+h1 {
+  font-size: calc( 20px + (20 - 8) * (100vw - 400px) / (1000 - 400) );
+}

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import logo from '../../art/logo.svg';
 import logoArabic from '../../art/logo-ar.svg';
-
 import LanguageSelector from '../LanguageSelector';
+import StatsToggle from '../StatsToggle';
+
+
 import './style.css';
 
 class Header extends Component { 
@@ -11,9 +13,10 @@ class Header extends Component {
     return (
       <header>
         <div>
-          <img alt="Cryptofries Logo" src={lang === 'EN' ? logo : logoArabic} width="200px" />
+          <img className="logo" alt="Cryptofries Logo" src={lang === 'EN' ? logo : logoArabic} width="200px" />
         </div>
         <LanguageSelector store={this.props.store} />
+        <StatsToggle store={this.props.store} />
         <div className={lang === 'EN' ? "github-corner" : "github-corner arabic"}>
           <a
             href="https://github.com/alshakero/cryptofries.git"

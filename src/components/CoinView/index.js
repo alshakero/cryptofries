@@ -38,7 +38,7 @@ class Header extends Component {
                 <ContainerDimensions>
                   {({ width, height }) => (
                     <HistoryChartAsync
-                      height={height - 20}
+                      height={height - 40}
                       width={width - 10}
                       store={store}
                       currency={this.props.currency}

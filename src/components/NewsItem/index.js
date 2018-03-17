@@ -12,35 +12,50 @@ class NewsItem extends Component {
       imgsrc:
         'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
     };
-    this.registerForIntersionObserver = this.registerForIntersionObserver.bind(
-      this
-    );
-    this.intersectionObserver = new IntersectionObserver(
-      this.intersecionHandler.bind(this)
-    );
+    this.lastTimeout = 0;
+    this.debouncedScrollHander = this.debouncedScrollHander.bind(this);
+    this.debouncedScrollHander();
   }
-  intersecionHandler(entries) {
-    if (entries[0].isIntersecting) {
-      this.setState({ visible: true });
+  debouncedScrollHander() {
+    clearTimeout(this.lastTimeout);
+    
+    this.lastTimeout = setTimeout(() => {
+      if (this.image) {
+        if (this.isImageInViewport()) {
+          this.setState({ visible: true });
 
-      // load image here before setting it to the img tag, this allows us to sure we don't set image while offline
-      const image = new Image();
-      image.onload = () => {
-        this.setState({ imgsrc: this.props.imageurl, loaded: true });
-      };
-      image.onerror = () => {
-        this.setState({ imgsrc: failedImage, loaded: true });
-      };
-      image.src = this.props.imageurl;
-      // we need it once
-      this.intersectionObserver.unobserve(this.img);
-      this.intersectionObserver.disconnect();
-    }
+          // load image here before setting it to the img tag, this allows us to sure we don't set image while offline
+          const image = new Image();
+          image.onload = () => {
+            this.setState({ imgsrc: this.props.imageurl, loaded: true });
+          };
+          image.onerror = () => {
+            this.setState({ imgsrc: failedImage, loaded: true });
+          };
+          image.src = this.props.imageurl;
+          debugger
+          // we need it once
+          window.removeEventListener('scroll', this.debouncedScrollHander);
+          window.removeEventListener('resize', this.debouncedScrollHander);
+        }
+      }
+    }, 50);
   }
-  registerForIntersionObserver(img) {
-    if (!img) return;
-    this.intersectionObserver.observe(img);
-    this.img = img;
+  isImageInViewport() {
+    var rect = this.image.getBoundingClientRect();
+    var html = document.documentElement;
+    return rect.top >= 0 && rect.top < html.clientHeight || (rect.bottom > 0 && rect.bottom < html.clientHeight);
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.debouncedScrollHander);
+    window.addEventListener('resize', this.debouncedScrollHander);
+  }
+  componentwillUnMount() {
+    window.removeEventListener('scroll', this.debouncedScrollHander);
+    window.removeEventListener('resize', this.debouncedScrollHander);
+  }
+  registerImage(img) {
+    this.image = img;
   }
   formatDate(d) {
     return new Date(d * 1000).toLocaleString();
@@ -54,7 +69,7 @@ class NewsItem extends Component {
         className="newsItem"
       >
         <img
-          ref={this.registerForIntersionObserver}
+          ref={this.registerImage.bind(this)}
           alt={this.props.title}
           className={this.state.loaded ? 'loaded' : 'loading'}
           data-loaded={this.state.loaded}

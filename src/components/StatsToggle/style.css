@@ -1,0 +1,13 @@
+.stats-toggle {
+  direction: ltr;
+}
+.stats-toggle button {
+  outline: none;
+  margin: 3px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 4px;
+}
+.stats-toggle button:hover {
+  background: #eee;
+}

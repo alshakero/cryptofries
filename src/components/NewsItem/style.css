@@ -3,7 +3,7 @@
     color: #333;
     margin: 10px;
     border-radius: 5px;
-    width: 100%;
+    width: calc(100% - 20px);
     max-width: 300px;
     display: inline-block;
     border: 1px solid rgb(255, 241, 241);
@@ -13,7 +13,6 @@
 }
 .newsItem img {
     width: 100%;
-    max-width: 300px;
 }
 .newsItem img {
     opacity:0; 

@@ -37,11 +37,36 @@ export default class DataStore {
     this.updateInterval = setInterval(this.fetchData, 60 * 1000);
     this.subscribers = new Set();
     if (localStorage.getItem('data-cache-' + localStorageVersion)) {
-      this.availableData = JSON.parse(localStorage.getItem('data-cache-' + localStorageVersion));
+      this.availableData = JSON.parse(
+        localStorage.getItem('data-cache-' + localStorageVersion)
+      );
     } else {
       this.availableData = defaultData;
     }
-    setTimeout(this.fetchNews.bind(this), 100); // fetch news lazily
+    setTimeout(this.fetchNews.bind(this), 100); // fetch news lazily;
+
+    // for stats usage
+    this.sessionStartTime = Date.now();
+    this.requestHistory = [];
+    this.apiLimits = {};
+  }
+
+  async getStats(fetchAPILimits = false) {
+    const stats = {
+      sessionDuration: Date.now() - this.sessionStartTime,
+      requestHistory: this.requestHistory,
+      apiLimits: this.apiLimits
+    };
+    if (!fetchAPILimits) {
+      return stats;
+    } else {
+      const response = await fetch(
+        'https://min-api.cryptocompare.com/stats/rate/limit'
+      );
+      this.logRequest(response);
+      const apiLimits = await response.json();
+      return { ...stats, apiLimits };
+    }
   }
 
   async getHistoricalData(coin, period, currency) {
@@ -64,7 +89,8 @@ export default class DataStore {
       {},
       {
         get(target, name) {
-          return i18n[self.availableData.language][name];
+          const a = i18n;
+          return i18n[self.availableData.language][name] || name // in case you don't find it, return the key as is
         }
       }
     );
@@ -91,11 +117,24 @@ export default class DataStore {
     }
     return url;
   }
+  logRequest(response) {
+    this.requestHistory.push({
+      url: response.url,
+      status: response.status,
+      success: response.status === 200,
+      time: Date.now()
+    });
 
+    // only keep 1000 records
+    if (this.requestHistory.length > 1000) {
+      this.requestHistory.shift();
+    }
+  }
   async fetchHistoricalData(mode, coin, currency) {
     const url = this.constructAPIUrl(mode, coin, currency);
     try {
       const response = await fetch(url);
+      this.logRequest(response);
       const rawData = await response.json();
       const data = rawData.Data;
       this.dispatchUpdate(true, true);
@@ -107,10 +146,11 @@ export default class DataStore {
   }
   async fetchNews() {
     try {
-      const res = await fetch(
+      const response = await fetch(
         'https://min-api.cryptocompare.com/data/news/?lang=EN'
       );
-      const news = await res.json();
+      this.logRequest(response);
+      const news = await response.json();
       this.availableData.news = news;
       // get the current preferences of providers into a hash
       const savedProviders = (this.availableData.providers || []).reduce(
@@ -165,7 +205,10 @@ export default class DataStore {
   }
 
   storeData() {
-    localStorage.setItem('data-cache-' + localStorageVersion, JSON.stringify(this.availableData));
+    localStorage.setItem(
+      'data-cache-' + localStorageVersion,
+      JSON.stringify(this.availableData)
+    );
   }
 
   normalizeData(prices) {
@@ -208,6 +251,7 @@ export default class DataStore {
       const response = await fetch(
         'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD,EUR,GBP,JPY,CNY'
       );
+      this.logRequest(response);
       if (response.status === 200) {
         const data = await response.json();
         this.normalizeData(data);
