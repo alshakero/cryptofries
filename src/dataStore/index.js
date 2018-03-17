@@ -146,19 +146,12 @@ export default class DataStore {
     );
   }
 
-  changeCurrency(newCurrency, mode = '1h') {
+  changeCurrency(newCurrency) {
     this.availableData.currency = newCurrency;
     this.availableData.currencySymbol = this.availableData.currencySymbols[
       newCurrency
     ];
-
-    Promise.all([
-      this.getHistoricalData(mode, 'BTC', this.availableData.currency),
-      this.getHistoricalData(mode, 'ETH', this.availableData.currency),
-      this.getHistoricalData(mode, 'XRP', this.availableData.currency)
-    ]).then(() => {
-      this.dispatchUpdate(true, true);
-    });
+    this.dispatchUpdate(true, true);
   }
 
   changeLanguage(newLanguage = this.availableData.language) {

@@ -37,7 +37,7 @@ class HistoryChart extends Component {
       currency
     );
     const chartData = this.normalizeData(data, mode);
-    this.setState({ chartData });
+    this.setState({ chartData, mode });
   }
   render() {
     const store = this.props.store;
